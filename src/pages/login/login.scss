@@ -1,0 +1,64 @@
+page-login {
+    #loginform {
+        //background-image: url('../../assets/imgs/milk-cup.jpg');
+        //background-repeat: no-repeat;
+        //background-size: cover;
+        .login-form {
+            margin-top: 150px;
+            //position: absolute;
+            
+        }
+        ion-icon {
+            color: rgb(101, 107, 104);
+        }
+        .create-account {
+            font-size: 1.2em;
+            margin-top: 10px;
+           text-align: center;
+           color: rgb(44, 77, 138);
+        }
+        ion-item {
+          background-color: rgba(0, 0, 0, 0);
+          //border-bottom-color: darken($color: rgb(0, 0, 0), $amount: 0); 
+          
+        }
+        // img{
+        //     // height: 25px;
+        //     // color: rgba(204, 204, 204, 0.8);
+        //     //float: left;
+        //    //margin-top: 10px;
+        // }
+        ion-input{
+            input::placeholder {
+              color:rgb(110, 108, 108)!important;
+            }
+            
+        }
+        
+    }
+    ion-icon {
+        &[class*="custom-"] {
+          mask-size: contain;
+          mask-position: 50% 50%;
+          mask-repeat: no-repeat;
+          background: currentColor;
+          width: 1em;
+          height: 1em;
+          margin-top: 0px;
+           // max-width: 30px;
+            //border: 0;
+          float: right;
+        }
+      
+        &[class*="custom-mail"] {
+          mask-image: url(../../assets/icon/mail.svg);
+        }
+        &[class*="custom-eye"] {
+            mask-image: url(../../assets/icon/eye.svg);
+        }   
+        &[class*="custom-eye-off"] {
+            mask-image: url(../../assets/icon/eye-off.svg);
+        }   
+      }
+    
+}

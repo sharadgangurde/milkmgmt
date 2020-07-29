@@ -1,0 +1,38 @@
+page-customer-detail {
+  .content-md {
+    color: #000;
+    background-color: #edeff3;
+}
+
+
+  ion-icon {
+      &[class*="custom-"] {
+        mask-size: contain;
+        mask-position: 50% 50%;
+        mask-repeat: no-repeat;
+        background: currentColor;
+        width: 1.5em;
+        height: 1.5em;
+        margin-top: 0px;
+          // max-width: 30px;
+          //border: 0;
+        float: right;
+      }
+    
+      &[class*="custom-ellipsis-vertical-sharp"] {
+        mask-image: url(../../assets/icon/ellipsis-vertical-sharp.svg);
+      }
+      &[class*="custom-add-circle-outline"] {
+          mask-image: url(../../assets/icon/add-circle-outline.svg);
+      }
+      // &[class*="custom-close-circle-outline"] {
+      //     mask-image: url(../../assets/icon/close-circle-outline.svg);
+      // }
+      // &[class*="custom-remove-circle-outline"] {
+      //     mask-image: url(../../assets/icon/remove-circle-outline.svg);
+      // }
+    }
+    .item-input .label-md, .item-select .label-md, .item-datetime .label-md {
+      color: rgb(0, 0, 0);
+  }
+}

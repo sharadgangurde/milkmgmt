@@ -1,0 +1,108 @@
+<!--
+  Generated template for the AddCustomerPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Add Customer</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-content padding id="add-customer-form">
+    <form [formGroup]="customerForm" (ngSubmit)="addCustomer()" class="customer-form">
+      <ion-item>
+        <ion-input type="text" formControlName="firstName" placeholder="First Name"></ion-input>
+      </ion-item>
+      <div *ngFor="let validation of validation_messages.firstName" >
+        <div *ngIf="customerForm.get('firstName').hasError(validation.type) && customerForm.get('firstName').touched">
+          <div class="error-message">{{validation.message}}</div>
+        </div>
+      </div>
+      <ion-item>
+        <ion-input type="text" formControlName="lastName" placeholder="Last Name"></ion-input>
+      </ion-item>
+      <div *ngFor="let validation of validation_messages.lastName" >
+        <div *ngIf="customerForm.get('lastName').hasError(validation.type) && customerForm.get('lastName').touched">
+          <div class="error-message">{{validation.message}}</div>
+        </div>
+      </div>
+      <ion-item>
+        <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
+      </ion-item>
+      <div *ngFor="let validation of validation_messages.email" >
+        <div *ngIf="customerForm.get('email').hasError(validation.type) && customerForm.get('email').touched">
+          <div class="error-message">{{validation.message}}</div>
+        </div>
+      </div>
+      <ion-item>
+        <ion-input type="number" formControlName="mobile" placeholder="Mobile"></ion-input>
+      </ion-item>
+      <div *ngFor="let validation of validation_messages.mobile" >
+        <div *ngIf="customerForm.get('mobile').hasError(validation.type) && customerForm.get('mobile').touched">
+          <div class="error-message">{{validation.message}}</div>
+        </div>
+      </div>
+      <ion-item>
+        <ion-textarea formControlName="address" placeholder="Address" ></ion-textarea>
+      </ion-item>
+      <div *ngFor="let validation of validation_messages.address" >
+        <div *ngIf="customerForm.get('address').hasError(validation.type) && customerForm.get('address').touched">
+          <div class="error-message">{{validation.message}}</div>
+        </div>
+      </div>
+      <ion-item>
+        <ion-label>From Date</ion-label>
+        <ion-datetime displayFormat="DD-MM-YYYY" formControlName="fromDate" placeholder="Select Date"></ion-datetime>
+      </ion-item>
+      <div *ngFor="let validation of validation_messages.fromDate" >
+        <div *ngIf="customerForm.get('fromDate').hasError(validation.type) && customerForm.get('fromDate').touched">
+          <div class="error-message">{{validation.message}}</div>
+        </div>
+      </div>
+      <!-- <ion-row radio-group name="milk-type" [(ngModel)]="milk-type">
+        <ion-item>
+          Select Milk Type
+        </ion-item>
+        <ion-col>
+          <ion-item>
+            <ion-radio value="cow"></ion-radio>
+            <ion-label>Cow</ion-label> 
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-radio value="Buffalo"></ion-radio>
+            <ion-label>Buffalo</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row radio-group name="session" [(ngModel)]="session">
+        <ion-item>
+          Select Session
+        </ion-item>
+        <ion-col>
+          <ion-item>
+            <ion-label>Morning</ion-label>
+            <ion-radio value="morning"></ion-radio>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>Evening</ion-label>
+            <ion-radio value="evening"></ion-radio>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-item>  
+        <ion-input type="number" placeholder="Amount in Rs."></ion-input>
+      </ion-item> -->
+      <button ion-button full round color="danger" type="submit" [disabled]="!customerForm.valid">Click to Add</button> 
+    </form>
+  </ion-content>
+</ion-content>

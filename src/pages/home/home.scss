@@ -1,0 +1,62 @@
+page-home {
+    #customerlist{
+        ion-list{
+            img{
+                height: 25px;
+                color: rgba(204, 204, 204, 0.8);
+                float: right;
+                margin-top: 10px;
+            }
+        }
+        p{
+            margin-top: 10px;
+        }
+    }
+    ion-card-header{
+        // color: rgb(119, 180, 21);
+        font-size: 1.3em;
+        font-weight: bold;
+     }
+     .item-md ion-avatar ion-img, .item-md ion-avatar img {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 60px;
+        height: 60px;
+    }
+    .button-small-md {
+        //position: relative;
+        height: 2.1em;
+        font-size: 1.3rem;
+        padding: 0 0.9em;
+        margin-left: 40px;
+    }
+    .item-ios ion-avatar ion-img, .item-ios ion-avatar img {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 60px;
+        height: 60px;
+    }
+    .button-small-ios {
+        height: 2.1em;
+        font-size: 1.3rem;
+        padding: 0 0.9em;
+        margin-left: 40%;
+    }
+    ion-fab[bottom] {
+        bottom: 60px;
+        padding: 20px;
+    }
+    #customerlist p {
+        margin-top: 8px;
+    }
+    .col {
+        padding: 0px;
+       
+    }
+    .message-icon{
+        height: 25px;
+        color: rgba(45, 164, 233, 0.8);
+        //align-items: flex-end;
+        margin-left: 70px;
+    }
+}

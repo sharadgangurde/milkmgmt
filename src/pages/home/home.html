@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Customer List</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar></ion-searchbar>
+  <ion-content id="customerlist">
+    <ion-card (click)="customerDetails()">
+      <ion-item>
+        <ion-avatar item-start>
+          <img class="avatar-img" src="../../assets/icon/person-circle-outline.svg">
+        </ion-avatar>
+        <h2>Marty McFly</h2>
+        <ion-row>
+          <ion-col>
+            <p>November 5, 1955</p>
+          </ion-col>
+          <ion-col>
+            <button ion-button small>bill</button>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-card>
+    <ion-fab right bottom>
+      <button ion-fab (click)="gotoAddCustomer()"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+  </ion-content>
+</ion-content>

@@ -1,0 +1,69 @@
+page-welcome {
+  #welcome{
+    background-image: url('../../assets/imgs/milk-cup.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    h1{
+        font-size: 30px;
+        margin-top:1px;
+        text-align: center;
+    }
+    h2 {
+      font-size: 15px;
+      margin-top:50px;
+      text-align: center;
+    }
+    .marginTop{
+        margin-top:150px;
+    }
+    ion-grid {
+        margin-top: 70px;
+    }
+    // .logo{
+    //     height: 100px;
+    // }
+}
+  .divider {
+    display: flex;
+    
+    &:before,
+    &:after {
+      content: "";
+      flex: 1;
+    }
+  }
+  
+  .line {
+    align-items: center;
+    margin: 1em -1em;
+    color: rgb(61, 59, 59);
+    
+    &:before,
+    &:after {
+      height: 1px;
+      margin: 0 1em;
+    }
+  } 
+  
+  .one-line {
+    &:before,
+    &:after {
+       background: rgb(117, 114, 114)
+    }
+  }
+  
+  .auth-form ion-grid,
+  .auth-form ion-row {
+    margin-top: 100px;
+    height: 100%;
+    justify-content: center;
+  }
+  
+  .already {
+    display: block;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  
+  
+}
