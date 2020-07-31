@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { FormGroup, FormControl } from '@angular/forms';
+import { ServicesProvider } from '../../providers/services/services';
 
 /**
  * Generated class for the CustomerDetailPage page.
@@ -13,12 +15,36 @@ import { NavController, NavParams, ActionSheetController } from 'ionic-angular';
   templateUrl: 'customer-detail.html',
 })
 export class CustomerDetailPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController) {
+  selectedCustomer: any;
+  dailyDetailForm: FormGroup
+  currentDate: any = new Date().toISOString();
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public actionSheetCtrl: ActionSheetController,
+    public services: ServicesProvider
+    ) {
+      this.dailyDetailForm = new FormGroup({
+        currentDate: new FormControl(),
+        milkType: new FormControl(),
+        session: new FormControl(),
+        amount: new FormControl(),
+        quantity: new FormControl(),
+        remark: new FormControl()
+     });
+      this.selectedCustomer = navParams.get('item');
+      console.log('Selected Customer is-',this.selectedCustomer)
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CustomerDetailPage');
+  }
+  //Daily record of customer
+  addDailyRecord() {
+    var dailyRecord = [];
+    dailyRecord = this.dailyDetailForm.value;
+    dailyRecord['cust_id'] = this.selectedCustomer.cust_id;
+    //console.log(dailyRecord)
+    this.services.addDailyRecord(dailyRecord);
   }
   presentActionSheet() {
     const actionSheet = this.actionSheetCtrl.create({
@@ -40,7 +66,7 @@ export class CustomerDetailPage {
           text: 'Call',
           role: 'call',
           handler: () => {
-            //console.log('Cancel clicked');
+               
           }
         },{
           text: 'Edit',
