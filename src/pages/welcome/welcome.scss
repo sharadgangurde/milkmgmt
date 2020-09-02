@@ -1,6 +1,6 @@
 page-welcome {
   #welcome{
-    background-image: url('../../assets/imgs/milk-cup.jpg');
+    background-image: url('/assets/imgs/milk-cup.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     h1{
@@ -64,6 +64,12 @@ page-welcome {
     text-align: center;
     padding-bottom: 10px;
   }
+  img {
+    position: relative;
+    margin: 15%;
+    border: 0;
+    max-width: 70%;
+}
   
   
 }

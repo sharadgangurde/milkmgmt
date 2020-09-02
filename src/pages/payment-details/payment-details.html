@@ -1,0 +1,87 @@
+
+<ion-header>
+  <ion-navbar color="navbarColor">
+    <!-- <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button> -->
+    <ion-icon  name="custom-ellipsis-vertical-sharp" (click)="presentActionSheet()"></ion-icon><!--(click)="presentActionSheet()"-->
+    <ion-title>Payment details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+  
+<ion-content id="add-paymentdetails">
+  <ion-content>
+    <form [formGroup]= "paymentDetails" novalidate><!--(ngSubmit)= "addCustomer()" -->
+      <ion-list>
+  
+        <ion-item>
+          <ion-icon name="md-person"  item-left></ion-icon>
+          <ion-label color="dark"><b>Customer:</b></ion-label>
+          <ion-input type="text" class="heart" formControlName ="name"  value= "{{selectedCustomer.firstName}}" readonly></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-icon name="md-calendar"  item-left></ion-icon>
+          <ion-label color="dark"><b>Today</b></ion-label>
+            <ion-datetime displayFormat="DD-MM-YYYY" formControlName ="fromDate" placeholder="Select Date"  [(ngModel)]= "myDate"></ion-datetime>
+          </ion-item>
+      
+
+         <ion-item>  
+          <ion-label item-start color="dark" ><b> Total Bill :</b></ion-label>
+          <ion-input type="number" class="heart" formControlName="totalBill"  value= "{{gettot}}"  readonly></ion-input>
+          
+          <ion-input type="number" class="text-amount" placeholder="Amount"  formControlName="paidAmount"  (input)="calculateAmount()" ></ion-input>        
+        </ion-item>
+        <ion-item>
+        <ion-label item-start color="dark" ><b>Pending :</b></ion-label>
+        <ion-input type="number" class="heart" formControlName="pending"  value= "{{calculateAmount()}}"  readonly></ion-input>
+      </ion-item>
+        <ion-item>
+          <ion-icon name="create"  item-left></ion-icon>
+          <ion-input type="text"  formControlName ="remark" placeholder="Remark.." ></ion-input>
+        </ion-item>
+  
+  
+    </ion-list>
+    
+      </form>
+       
+      <button ion-button full color="lightText" (click)= "Addpaymentdetails()"  type="submit">Add To List</button><!-- selectedCustomer -->
+        <ion-list><!--(click)="itemTapped($event, item) " -->
+          <ion-card  *ngFor="let item of displayPaymentDetails" class="line" >
+                <ion-row>
+                   <ion-col size="12" class="ion-text-center">
+                     <ion-item>
+                      <b>{{item.PaymentDetails.fromDate | date}} </b>
+                         <b item-end>Paid:  {{item.PaymentDetails.paidAmount | currency:'INR'}}  </b>     
+                        <h4> <b>Remark: </b> {{item.PaymentDetails.remark}}</h4> 
+                       
+                     </ion-item>
+                   </ion-col>
+                 </ion-row>
+        </ion-card>
+        
+      </ion-list>
+ <!-- <ion-card>
+        <ion-card-header color="black">Total Paied :  <b class="heart">   {{ TotalPending | currency:'INR'}}  </b></ion-card-header>      
+    </ion-card>
+  -->
+  </ion-content>
+  <ion-fab right bottom>
+    <button ion-fab color="primary"><ion-icon name="share"></ion-icon></button>
+    <ion-fab-list side="top">
+      <!-- <button ion-fab color="primary"><ion-icon name="logo-facebook"></ion-icon></button>
+      <button ion-fab color=""><ion-icon name="logo-twitter"></ion-icon></button> -->
+     
+      <button ion-fab color="primary" (click)="call()"><ion-icon name="call"></ion-icon></button>
+      <button ion-fab color="primary" (click)="shareBill()"><ion-icon name="share"></ion-icon></button>
+      <button ion-fab color="primary" (click)="makePdf()"><ion-icon name="document"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>
+
+
+      
+  

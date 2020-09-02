@@ -5,7 +5,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { WelcomePage } from '../pages/welcome/welcome';
@@ -16,6 +15,13 @@ import { CustomerDetailPage } from '../pages/customer-detail/customer-detail';
 import { ServicesProvider } from '../providers/services/services';
 import { IonicStorageModule } from '@ionic/storage';
 import { SettingsPage } from '../pages/settings/settings';
+import { ViewRecordPage } from '../pages/view-record/view-record';
+import { PaymentDetailsPage } from '../pages/payment-details/payment-details';
+import { File } from '@ionic-native/file/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { CallNumber } from '@ionic-native/call-number';
+import { ProfilePage } from '../pages/profile/profile';
 
 @NgModule({
   declarations: [
@@ -27,7 +33,10 @@ import { SettingsPage } from '../pages/settings/settings';
     LoginPage,
     AddCustomerPage,
     CustomerDetailPage,
-    SettingsPage
+    SettingsPage,
+    ViewRecordPage,
+    PaymentDetailsPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -47,10 +56,17 @@ import { SettingsPage } from '../pages/settings/settings';
     LoginPage,
     AddCustomerPage,
     CustomerDetailPage,
-    SettingsPage
+    SettingsPage,
+    ViewRecordPage,
+    PaymentDetailsPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,
+    SocialSharing,
+    CallNumber,
+    File,
+    FileOpener,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ServicesProvider

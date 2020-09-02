@@ -3,36 +3,21 @@ page-customer-detail {
     color: #000;
     //background-color: #edeff3;
 }
-  ion-icon {
-      &[class*="custom-"] {
-        mask-size: contain;
-        mask-position: 50% 50%;
-        mask-repeat: no-repeat;
-        background: currentColor;
-        width: 1.5em;
-        height: 1.5em;
-        margin-top: 0px;
-        margin-right: 7px;
-          // max-width: 30px;
-          //border: 0;
-        float: right;
-      }
-    
-      &[class*="custom-ellipsis-vertical-sharp"] {
-        mask-image: url(../../assets/icon/ellipsis-vertical-sharp.svg);
-      }
-      &[class*="custom-add-circle-outline"] {
-          mask-image: url(../../assets/icon/add-circle-outline.svg);
-      }
-      // &[class*="custom-close-circle-outline"] {
-      //     mask-image: url(../../assets/icon/close-circle-outline.svg);
-      // }
-      // &[class*="custom-remove-circle-outline"] {
-      //     mask-image: url(../../assets/icon/remove-circle-outline.svg);
-      // }
-    }
-    .item-input .label-md, .item-select .label-md, .item-datetime .label-md {
-      color: rgb(0, 0, 0);
+.error-message {
+  display: block;
+  font-size: 0.9em;
+  color: rgb(255, 1, 1);
+  margin-left: 12px;
+}
+
+
+p{
+  color: blue;
+  float: right;
+}
+  
+  .item-input .label-md, .item-select .label-md, .item-datetime .label-md {
+    color: rgb(0, 0, 0);
   }
   .item-md {
     padding-left: 10px;
@@ -50,7 +35,7 @@ page-customer-detail {
     transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card-header-md {
-  font-size: 1.6rem;
+  font-size: 1.9rem;
   color: #222;
   padding: 2px;
 }
@@ -64,4 +49,25 @@ page-customer-detail {
   font-size: 1.4rem;
   line-height: 1.5;
 }
+.button-small-md {
+  height: 2.1em;
+  font-size: 1.3rem;
+  padding: 0 0.9em;
+  float: right;
+}
+.view-detail{
+  float: right;
+  color: blue;
+  font-weight: bold;
+}
+// ion-icon {
+//   display: inline-block;
+//   font-size: 1em;
+// }
+.text-input-md {
+  //margin-left: 100px;
+  padding-left:80px;
+  //width: calc(100% - 8px - 8px);
+}
+
 }

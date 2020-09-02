@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ServicesProvider } from '../../providers/services/services';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the AddCustomerPage page.
@@ -52,7 +53,8 @@ export class AddCustomerPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     public formBuilder: FormBuilder,
-    public services: ServicesProvider
+    public services: ServicesProvider,
+    public alertCtrl: AlertController
     ) {
     this.customerForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
@@ -75,5 +77,21 @@ export class AddCustomerPage {
       return;
   }
     this.services.addCustomer(this.customerForm.value)
+    this.showAlert()
+    //this.navCtrl.pop()
+  }
+  showAlert() {
+    const alert = this.alertCtrl.create({
+      subTitle: 'Customer added successfully',
+      buttons: [
+        {
+        text: 'OK',
+        handler: () => {
+          this.navCtrl.setRoot(HomePage)
+        }
+      },
+    ]
+    });
+    alert.present();
   }
 }

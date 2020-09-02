@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="navbarColor">
     <ion-icon (click)="presentActionSheet()" name="custom-ellipsis-vertical-sharp"></ion-icon>
     <ion-title>Customer Details</ion-title>
   </ion-navbar>
@@ -15,86 +15,118 @@
 
 
 <ion-content>
-  <ion-card id="customer-name-card">
-    <ion-card-header>
-      {{selectedCustomer.firstName}} {{selectedCustomer.lastName}}
-    </ion-card-header>
-  </ion-card>
-  <form [formGroup]="dailyDetailForm" (ngSubmit)="addDailyRecord()">
-    <ion-card>
+  <ion-content >
+    <ion-card id="customer-name-card">
       <ion-card-header>
-        <ion-item>
-          <ion-label>Date</ion-label>
-          <ion-datetime displayFormat="DD-MM-YYYY" [(ngModel)]="currentDate" formControlName="currentDate" placeholder="Select Date"></ion-datetime>
-        </ion-item>
+        {{selectedCustomer.firstName}} {{selectedCustomer.lastName}}
+        <button ion-button small end (click)="viewBill()">Bill</button>
       </ion-card-header>
     </ion-card>
-    <ion-card>
-      <ion-card-content>
-        <ion-row radio-group name="milk-type" formControlName="milkType">
+    <form [formGroup]="dailyDetailForm">
+      <ion-card>
+        <ion-card-header>
           <ion-item>
-            Select Milk Type
+            <ion-label>Date</ion-label>
+            <ion-datetime displayFormat="DD-MM-YYYY" formControlName="currentDate" [(ngModel)]="currentDate" placeholder="Select Date"></ion-datetime>
           </ion-item>
-          <ion-col>
+        </ion-card-header>
+      </ion-card>
+      <ion-card>
+        <ion-card-content>
+          <ion-row radio-group formControlName="milkType">
             <ion-item>
-              <ion-radio value="cow"></ion-radio>
-              <ion-label>Cow</ion-label> 
+              Select Milk Type
             </ion-item>
-          </ion-col>
-          <ion-col>
+            <ion-col>
+            <!-- <ion-item *ngFor="let option of product.options"> <ion-label>{{option.value}}</ion-label> 
+              <ion-radio value="{{option.value}}" checked="{{option.selected}}" disabled="{{fromCart}}"></ion-radio> 
+            </ion-item> -->
+              <ion-item>
+                <ion-radio value="cow"></ion-radio>
+                <ion-label>Cow</ion-label> 
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-radio value="Buffalo"></ion-radio>
+                <ion-label>Buffalo</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <div *ngFor="let validation of validation_messages.milkType" >
+            <div *ngIf="dailyDetailForm.get('milkType').hasError(validation.type) && dailyDetailForm.get('milkType').touched">
+              <div class="error-message">{{validation.message}}</div>
+            </div>
+          </div>
+          <ion-row radio-group name="session" formControlName="session">
             <ion-item>
-              <ion-radio value="Buffalo"></ion-radio>
-              <ion-label>Buffalo</ion-label>
+              Select Session
             </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row radio-group name="session" formControlName="session">
+            <ion-col>
+              <ion-item>
+                <ion-label>Morning</ion-label>
+                <ion-radio value="morning"></ion-radio>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label>Evening</ion-label>
+                <ion-radio value="evening"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <div *ngFor="let validation of validation_messages.session" >
+            <div *ngIf="dailyDetailForm.get('session').hasError(validation.type) && dailyDetailForm.get('session').touched">
+              <div class="error-message">{{validation.message}}</div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-content>
           <ion-item>
-            Select Session
+            <ion-label>Quantity:</ion-label>
+            <ion-input type="number" formControlName="quantity" (input)="calculateAmount()" placeholder="1Ltr"></ion-input>
           </ion-item>
-          <ion-col>
-            <ion-item>
-              <ion-label>Morning</ion-label>
-              <ion-radio value="morning"></ion-radio>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <ion-label>Evening</ion-label>
-              <ion-radio value="evening"></ion-radio>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-content>
-        <ion-item>
-          <ion-input type="number" formControlName="quantity" placeholder="Type Quantity"></ion-input>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-content>
-        <ion-item>
-          <ion-input type="number" formControlName="amount" placeholder="Enter amount"></ion-input>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-content>
-        <ion-item>
-          <ion-input type="text" formControlName="remark" placeholder="Remark Here"></ion-input>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
-    <ion-row>
-      <ion-col>
-        <button ion-button full>Cancel</button>
-      </ion-col>
-      <ion-col>
-        <button ion-button full type="submit">Save</button>
-      </ion-col>
-    </ion-row>
-  </form>
+          <div *ngFor="let validation of validation_messages.quantity" >
+            <div *ngIf="dailyDetailForm.get('quantity').hasError(validation.type) && dailyDetailForm.get('quantity').touched">
+              <div class="error-message">{{validation.message}}</div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-content>
+          <ion-item>
+            <ion-label>Amount:</ion-label>
+            <ion-input type="number" formControlName="amount" [(ngModel)]="amount" placeholder="0.00"></ion-input>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-content>
+          <ion-item>
+            <ion-input type="text" formControlName="remark" placeholder="Remark (optional)"></ion-input>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+      <ion-row>
+        <ion-col>
+          <button ion-button full >Cancel</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button full [disabled]="!dailyDetailForm.valid" (click)="addDailyRecord()">Save</button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-content>
+  <!-- <ion-fab right bottom>
+    <button ion-fab color="primary"><ion-icon name="share"></ion-icon></button>
+    <ion-fab-list side="top">
+      
+      <button ion-fab color="primary" (click)="call()"><ion-icon name="call"></ion-icon></button>
+      <button ion-fab color="primary" (click)="share()"><ion-icon name="share"></ion-icon></button>
+      <button ion-fab color="primary" (click)="viewBill()"><ion-icon name="document"></ion-icon></button>
+    </ion-fab-list> -->
+  <!-- </ion-fab> -->
 </ion-content>

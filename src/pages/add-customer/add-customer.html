@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="navbarColor">
     <ion-title>Add Customer</ion-title>
   </ion-navbar>
 
@@ -107,7 +107,7 @@
           <div class="error-message">{{validation.message}}</div>
         </div>
       </div>
-      <button ion-button full round color="danger" type="submit" [disabled]="!customerForm.valid">Click to Add</button> 
+      <button ion-button full round color="danger" type="submit" [disabled]="!customerForm.valid" >Click to Add</button> 
     </form>
   </ion-content>
 </ion-content>

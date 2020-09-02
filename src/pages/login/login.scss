@@ -3,11 +3,11 @@ page-login {
         //background-image: url('../../assets/imgs/milk-cup.jpg');
         //background-repeat: no-repeat;
         //background-size: cover;
-        .login-form {
-            margin-top: 150px;
-            //position: absolute;
+        // .login-form {
+        //     //margin-top: 150px;
+        //     //position: absolute;
             
-        }
+        // }
         ion-icon {
             color: rgb(101, 107, 104);
         }
@@ -34,8 +34,24 @@ page-login {
             }
             
         }
-        
-    }
+          h1{
+              font-size: 30px;
+              margin-top:1px;
+              text-align: center;
+          }
+          h2 {
+            font-size: 15px;
+            margin-top:50px;
+            text-align: center;
+          }
+          .marginTop{
+              margin-top:150px;
+          }
+          
+          // .logo{
+          //     height: 100px;
+          // }
+      }
     ion-icon {
         &[class*="custom-"] {
           mask-size: contain;
@@ -58,7 +74,16 @@ page-login {
         }   
         &[class*="custom-eye-off"] {
             mask-image: url(../../assets/icon/eye-off.svg);
-        }   
+        }
+        &[class*="custom-mail"] {
+          mask-image: url(../../assets/icon/mail.svg);
+        }
       }
+      img {
+        position: relative;
+        margin: 15%;
+        border: 0;
+        max-width: 70%;
+    }
     
 }

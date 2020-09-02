@@ -15,19 +15,33 @@
 
 <ion-content>
   <ion-content padding id="loginform">
+    <img src="assets/imgs/logo1.png" class="logo"/>
+    <!-- <ion-grid>
+      <ion-row>
+        <ion-col>
+          <h2>  Login to</h2>
+          <h1>Milk Man</h1>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
     <!-- <img src="../../assets/imgs/milk-bottle.jpg"/> -->
-    <form [formGroup]="loginForm" class="login-form" (ngSubmit)="login()">
+    <form [formGroup]="loginForm" class="login-form">
         <ion-item>
-          <ion-icon name='custom-mail' item-left></ion-icon>
-          <ion-input type="text" placeholder="Enter Username" formControlName="userName"></ion-input>
+          <ion-icon name='custom-mail' item-end></ion-icon>
+          <ion-input type="email" placeholder="Enter email" formControlName="userName"></ion-input>
         </ion-item>
       
-        <ion-item>
+        <!-- <ion-item>
           <ion-input type="inputType"  placeholder="Enter Password" formControlName="password"></ion-input>
-          <ion-icon [name]="(inputType == 'password') ? 'custom-eye' : 'custom-eye-off'" item-left (click)="inputType = (inputType == 'password') ? 'text' : 'password';"> </ion-icon>
-        </ion-item>
-  
-      <button ion-button full round color="danger">Log in</button> 
+          <ion-icon [name]="(inputType == 'password') ? 'eye' : 'eye-off'" item-left (click)="inputType = (inputType == 'password') ? 'text' : 'password';"> </ion-icon>
+        </ion-item> -->
+        <ion-item>
+        <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password'" clearOnEdit="false" formControlName="password"></ion-input>
+        <button (click)="onPasswordToggle()" ion-button clear small item-end icon-only>
+          <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+        </button>
+      </ion-item>
+      <button ion-button full round color="danger" (click)="login()">Log in</button> 
       <div class="create-account" (click)="gotoRegister()">Create Account</div>
     </form>
   </ion-content>

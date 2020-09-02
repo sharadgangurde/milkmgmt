@@ -17,7 +17,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-
+  public showPassword: boolean = false;
   loginForm: FormGroup;
   userName: string;
   password: string;
@@ -36,6 +36,9 @@ export class LoginPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
     this.menu.enable(false);
+  }
+  onPasswordToggle(): void {
+    this.showPassword = !this.showPassword;
   }
   login(){
     this.services.getLogin(this.loginForm.value);

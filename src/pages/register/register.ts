@@ -89,9 +89,15 @@ export class RegisterPage {
   }
   showAlert() {
     const alert = this.alertCtrl.create({
-      title: 'Thank you!',
-      subTitle: 'Your are successfully registered!',
-      buttons: ['OK']
+      subTitle: 'Successfully Registered!!',
+      buttons: [
+        {
+        text: 'OK',
+        handler: () => {
+          this.navCtrl.setRoot(LoginPage)
+        }
+      },
+    ]
     });
     alert.present();
   }

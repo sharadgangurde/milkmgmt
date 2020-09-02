@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController } from 'ionic-angular';
-import { FormGroup, FormControl } from '@angular/forms';
+import { NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ServicesProvider } from '../../providers/services/services';
+import { HomePage } from '../home/home';
+import { ViewRecordPage } from '../view-record/view-record';
+import { PaymentDetailsPage } from '../payment-details/payment-details';
 
-/**
- * Generated class for the CustomerDetailPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-customer-detail',
@@ -16,73 +13,158 @@ import { ServicesProvider } from '../../providers/services/services';
 })
 export class CustomerDetailPage {
   selectedCustomer: any;
-  dailyDetailForm: FormGroup
+  dailyDetailForm: FormGroup;
   currentDate: any = new Date().toISOString();
+  amount: any;
+  items: any;
+  total = 0;
+  name: string = '';
+  validation_messages = {
+    'milkType': [
+      {type: 'required', message: 'Select Type'}
+    ],
+    'session': [
+      {type: 'required', message: 'Select a session'}
+    ],
+    'quantity': [
+      {type: 'required', message: 'Enter Quantity'}
+    ]
+  }
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     public actionSheetCtrl: ActionSheetController,
-    public services: ServicesProvider
+    public services: ServicesProvider,
+    public alertCtrl: AlertController,
+    public formBuilder: FormBuilder,
     ) {
-      this.dailyDetailForm = new FormGroup({
-        currentDate: new FormControl(),
-        milkType: new FormControl(),
-        session: new FormControl(),
-        amount: new FormControl(),
-        quantity: new FormControl(),
-        remark: new FormControl()
-     });
+     this.dailyDetailForm = this.formBuilder.group({
+      currentDate: ['', [Validators.required]],
+      milkType: ['', [Validators.required,]],
+      session: ['', [Validators.required]],
+      amount: ['', [Validators.required]],
+      quantity: ['', [Validators.required]],
+      remark: ['', []],
+    });
       this.selectedCustomer = navParams.get('item');
       console.log('Selected Customer is-',this.selectedCustomer)
+      this.items = this.services.getDailyDetails(this.selectedCustomer.cust_id)
+      this.name = this.selectedCustomer.firstName + ' ' + this.selectedCustomer.lastName;
+      this.getTotal()
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CustomerDetailPage');
   }
+  getTotal() {
+    if(this.items) {
+      for(let i=0; i<this.items.length; i++) {
+        this.total = this.total + this.items[i].dailydata.amount;
+      } 
+    }                                 
+    console.log('Total is-', this.total);
+  }
   //Daily record of customer
   addDailyRecord() {
     var dailyRecord = [];
     dailyRecord = this.dailyDetailForm.value;
-    dailyRecord['cust_id'] = this.selectedCustomer.cust_id;
+   // dailyRecord['cust_id'] = this.selectedCustomer.cust_id;
     //console.log(dailyRecord)
-    this.services.addDailyRecord(dailyRecord);
+    this.services.addDailyRecord(dailyRecord, this.selectedCustomer.cust_id);
+    this.showAlert()
+  }
+  calculateAmount(){
+    this.amount = this.selectedCustomer.amount * this.dailyDetailForm.value.quantity;
+    console.log(this.amount)
+  }
+  showAlert() {
+    const alert = this.alertCtrl.create({
+      subTitle: 'Record is updated',
+      buttons: [
+        {
+        text: 'OK',
+        handler: () => {
+          this.navCtrl.setRoot(HomePage)
+        }
+      },
+    ]
+    });
+    alert.present();
+  }
+  viewDailyDetails() {
+    this.navCtrl.push(ViewRecordPage, {
+      id: this.selectedCustomer.cust_id
+    })
+  }
+  // share() {
+  //   // Check if sharing via email is supported
+  //   this.socialSharing.canShareViaEmail().then(() => {
+  //     // Sharing via email is possible
+  //   }).catch(() => {
+  //     // Sharing via email is not possible
+  //   });
+
+  //   // Share via email
+  //   this.socialSharing.shareViaEmail('Body', 'Subject', ['recipient@example.org']).then(() => {
+  //     // Success!
+  //   }).catch(() => {
+  //     // Error!
+  //   });
+  // }
+  // call() {
+  //   this.callNumber.callNumber(this.selectedCustomer.mobile, true)
+  // .then(res => console.log('Launched dialer!', res))
+  // .catch(err => console.log('Error launching dialer', err));
+  // }
+  viewBill() {
+    this.navCtrl.push(PaymentDetailsPage, {
+      item: this.selectedCustomer,
+      total: this.total
+    })
   }
   presentActionSheet() {
     const actionSheet = this.actionSheetCtrl.create({
       title: 'Action',
       buttons: [
-        {
-          text: 'View Bill',
-          role: 'view-bill',
-          handler: () => {
-            //console.log('Destructive clicked');
-          }
-        },{
-          //icon: 'mail',
-          text: 'Message',
-          handler: () => {
-            //console.log('Archive clicked');
-          }
-        },{
-          text: 'Call',
-          role: 'call',
-          handler: () => {
+        // {
+        //   text: 'View Bill',
+        //   role: 'view-record',
+        //   handler: () => {
+        //     this.navCtrl.push(PaymentDetailsPage, {
+        //       item: this.selectedCustomer,
+        //       total: this.total
+        //     })
+        //   }
+        // },
+        // {
+        //   text: 'Call',
+        //   role: 'call',
+        //   handler: () => {
                
-          }
-        },{
-          text: 'Edit',
-          role: 'edit',
-          handler: () => {
-            //console.log('Cancel clicked');
-          }
-        },{
-          text: 'Delete',
-          role: 'delete',
-          handler: () => {
-            //console.log('Cancel clicked');
-          }
-        }
+        //   }
+        // },
+        // {
+        //   text: 'Edit',
+        //   role: 'edit',
+        //   handler: () => {
+        //     //console.log('Cancel clicked');
+        //   }
+        // },{
+        //   text: 'Share',
+        //   role: 'share',
+        //   handler: () => {
+        //     this.share()
+        //   }
+        // },{
+        //   text: 'Delete',
+        //   role: 'delete',
+        //   handler: () => {
+        //     //console.log('Cancel clicked');
+        //   }
+        // }
       ]
     });
     actionSheet.present();
   }
+  
+    
 }

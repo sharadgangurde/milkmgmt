@@ -1,0 +1,23 @@
+page-profile {
+    .capitalize { 
+        text-transform: capitalize; 
+        text-align: center;
+    }
+    ion-card img {
+        display: block;
+        height: 200px;
+    }
+    .item-md p {
+        margin: 0 0 2px;
+        overflow: inherit;
+        font-size: 1.7rem;
+        line-height: normal;
+        text-overflow: inherit;
+        color: #666;
+    }
+    ion-icon {
+        display: inline-block;
+        font-size: 1.2em;
+        margin-right: 15px;
+    }
+}

@@ -1,0 +1,30 @@
+<!--
+  Generated template for the ViewRecordPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="navbarColor">
+    <ion-title>View Record</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  Total Amount is {{total}}/-
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let item of items">
+        <ion-card>
+          <ion-card-content>
+            <p class="date">{{item.dailydata.currentDate | date: DD}}</p>
+            <p class="amount">Rs.{{item.dailydata.amount}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
