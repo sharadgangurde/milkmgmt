@@ -65,7 +65,7 @@
           <div class="error-message">{{validation.message}}</div>
         </div>
       </div>
-      <!-- <ion-row radio-group name="milk-type" [(ngModel)]="milk-type">
+      <ion-row radio-group formControlName="milkType" >
         <ion-item>
           Select Milk Type
         </ion-item>
@@ -82,7 +82,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
-      <ion-row radio-group name="session" [(ngModel)]="session">
+      <ion-row radio-group formControlName="session">
         <ion-item>
           Select Session
         </ion-item>
@@ -100,8 +100,13 @@
         </ion-col>
       </ion-row>
       <ion-item>  
-        <ion-input type="number" placeholder="Amount in Rs."></ion-input>
-      </ion-item> -->
+        <ion-input type="number" formControlName="amount" placeholder="Amount in Rs."></ion-input>
+      </ion-item>
+      <div *ngFor="let validation of validation_messages.amount" >
+        <div *ngIf="customerForm.get('amount').hasError(validation.type) && customerForm.get('amount').touched">
+          <div class="error-message">{{validation.message}}</div>
+        </div>
+      </div>
       <button ion-button full round color="danger" type="submit" [disabled]="!customerForm.valid">Click to Add</button> 
     </form>
   </ion-content>

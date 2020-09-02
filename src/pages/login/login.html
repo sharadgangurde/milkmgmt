@@ -16,14 +16,14 @@
 <ion-content>
   <ion-content padding id="loginform">
     <!-- <img src="../../assets/imgs/milk-bottle.jpg"/> -->
-    <form class="login-form" (ngSubmit)="login()">
+    <form [formGroup]="loginForm" class="login-form" (ngSubmit)="login()">
         <ion-item>
           <ion-icon name='custom-mail' item-left></ion-icon>
-          <ion-input [type]="text" placeholder="Enter Username" name="username" [(ngModel)]="username"></ion-input>
+          <ion-input type="text" placeholder="Enter Username" formControlName="userName"></ion-input>
         </ion-item>
       
         <ion-item>
-          <ion-input name="password" [type]="inputType"  placeholder="Enter Password" [(ngModel)]="inputValue"></ion-input>
+          <ion-input type="inputType"  placeholder="Enter Password" formControlName="password"></ion-input>
           <ion-icon [name]="(inputType == 'password') ? 'custom-eye' : 'custom-eye-off'" item-left (click)="inputType = (inputType == 'password') ? 'text' : 'password';"> </ion-icon>
         </ion-item>
   

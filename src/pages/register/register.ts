@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, MenuController, AlertController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { FormGroup, Validators, FormBuilder, ValidatorFn, AbstractControl } from '@angular/forms';
+import { ServicesProvider } from '../../providers/services/services';
 
 /**
  * Generated class for the RegisterPage page.
@@ -46,7 +47,13 @@ export class RegisterPage {
       { type: 'equalto', message: 'Password does not match' }
     ],
   }
-  constructor(public navCtrl: NavController, public navParams: NavParams, public menu: MenuController, public alertCtrl: AlertController, public formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public menu: MenuController, 
+    public alertCtrl: AlertController, 
+    public formBuilder: FormBuilder,
+    public services: ServicesProvider
+    ) {
      // Create the form and define fields and validators.
      this.registrationForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
@@ -61,14 +68,12 @@ export class RegisterPage {
   // get f() { return this.registrationForm.controls; }
   equalto(field_name): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
-    
-    let input = control.value;
-    
-    let isValid=control.root.value[field_name]==input
+      let input = control.value;
+      let isValid=control.root.value[field_name]==input
     if(!isValid)
-    return { 'equalto': {isValid} }
+      return { 'equalto': {isValid} }
     else
-    return null;
+      return null;
     };
   }
   
@@ -77,9 +82,9 @@ export class RegisterPage {
   }
   register() {
    if (this.registrationForm.invalid) {
-          return;
-      } 
-      console.log(this.registrationForm.value);
+      return;
+    } 
+    this.services.setRegistrationData(this.registrationForm.value);   
     this.showAlert()
   }
   showAlert() {

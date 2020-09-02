@@ -15,28 +15,28 @@
 
 
 <ion-content>
-  <ion-card>
+  <ion-card id="customer-name-card">
     <ion-card-header>
-      Customer Name
+      {{selectedCustomer.firstName}} {{selectedCustomer.lastName}}
     </ion-card-header>
   </ion-card>
-  <form>
+  <form [formGroup]="dailyDetailForm" (ngSubmit)="addDailyRecord()">
     <ion-card>
       <ion-card-header>
         <ion-item>
-          <ion-label>From Date</ion-label>
-          <ion-datetime displayFormat="DD MM YYYY" placeholder="Select    Date"></ion-datetime>
+          <ion-label>Date</ion-label>
+          <ion-datetime displayFormat="DD-MM-YYYY" [(ngModel)]="currentDate" formControlName="currentDate" placeholder="Select Date"></ion-datetime>
         </ion-item>
       </ion-card-header>
     </ion-card>
     <ion-card>
       <ion-card-content>
-        <ion-row radio-group name="milk-type" [(ngModel)]="milk-type">
+        <ion-row radio-group name="milk-type" formControlName="milkType">
           <ion-item>
             Select Milk Type
           </ion-item>
           <ion-col>
-            <ion-item>0
+            <ion-item>
               <ion-radio value="cow"></ion-radio>
               <ion-label>Cow</ion-label> 
             </ion-item>
@@ -48,7 +48,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row radio-group name="session" [(ngModel)]="session">
+        <ion-row radio-group name="session" formControlName="session">
           <ion-item>
             Select Session
           </ion-item>
@@ -69,24 +69,22 @@
     </ion-card>
     <ion-card>
       <ion-card-content>
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-input type="number" name="quantity" placeholder="Type Quantity"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <ion-input type="amount" name="amount" value="30.Rs"></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
+        <ion-item>
+          <ion-input type="number" formControlName="quantity" placeholder="Type Quantity"></ion-input>
+        </ion-item>
       </ion-card-content>
     </ion-card>
     <ion-card>
       <ion-card-content>
         <ion-item>
-          <ion-input type="text" name="remark" placeholder="Remark Here"></ion-input>
+          <ion-input type="number" formControlName="amount" placeholder="Enter amount"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-content>
+        <ion-item>
+          <ion-input type="text" formControlName="remark" placeholder="Remark Here"></ion-input>
         </ion-item>
       </ion-card-content>
     </ion-card>
@@ -95,7 +93,7 @@
         <button ion-button full>Cancel</button>
       </ion-col>
       <ion-col>
-        <button ion-button full>Save</button>
+        <button ion-button full type="submit">Save</button>
       </ion-col>
     </ion-row>
   </form>
