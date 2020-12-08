@@ -1,13 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { StatusBar } from '@ionic-native/status-bar';
+import { Nav, Platform } from 'ionic-angular';
 import { HomePage } from '../pages/home/home';
+import { SettingsPage } from '../pages/settings/settings';
 //import { ListPage } from '../pages/list/list';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { ServicesProvider } from '../providers/services/services';
-import { SettingsPage } from '../pages/settings/settings';
+
 //import { ProfilePage } from '../pages/profile/profile';
 
 @Component({
@@ -44,9 +44,12 @@ export class MyApp {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#002f80');
       this.splashScreen.hide();
-     var currentUser = JSON.parse(this.services.currentUser);
-      this.user = currentUser.firstName;
-      console.log(currentUser.firstName)
+      var currentUser = JSON.parse(this.services.currentUser);
+      if(currentUser) {
+        this.user = currentUser.firstName;
+        console.log(currentUser.firstName)
+      } 
+     
     });
     this.services.isLoggedIn.subscribe(state => {
       console.log("Auth state: " + state);

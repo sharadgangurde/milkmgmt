@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController, NavController, NavParams } from 'ionic-angular';
 import { ServicesProvider } from '../../providers/services/services';
+import { ToastProvider } from '../../providers/toast/toast';
+import { ValidationProvider } from '../../providers/validation/validation';
 import { HomePage } from '../home/home';
 
 /**
@@ -17,44 +19,14 @@ import { HomePage } from '../home/home';
 })
 export class AddCustomerPage {
   customerForm: FormGroup;
-  validation_messages = {
-    'firstName': [
-      {type: 'required', message: 'Enter a name'},
-      {type: 'pattern', message: 'Enter a valid name'}
-    ],
-    'lastName': [
-      {type: 'required', message: 'Enter a last name'},
-      {type: 'pattern', message: 'Enter a valid name'}
-    ],
-    'email': [
-      {type: 'required', message: 'Enter email-id'},
-      {type: 'email', message: 'Enter a valid email'}
-    ],
-    'mobile': [
-      {type: 'required', message: 'Enter mobile number'},
-      {type: 'minlength', message: 'Enter a valid Number'}
-    ],
-    'address': [
-      {type: 'required', message: 'Enter the address'},
-    ],
-    'fromDate': [
-      {type: 'required', message: 'Select the date'},
-    ],
-    'milkType': [
-      {type: 'required', message: 'Please select a milktype'},
-    ],
-    'session': [
-      {type: 'required', message: 'Please Select a session'},
-    ],
-    'amount': [
-      {type: 'required', message: 'Please Enter a amount'},
-    ]
-  }
+  validation_messages: any;
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     public formBuilder: FormBuilder,
     public services: ServicesProvider,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public toast: ToastProvider,
+    public validation: ValidationProvider
     ) {
     this.customerForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
@@ -67,6 +39,8 @@ export class AddCustomerPage {
       session: ['', [Validators.required]],
       amount: ['', [Validators.required]]
     })
+
+    this.validation_messages = this.validation.validationMessages()
   }
 
   ionViewDidLoad() {
@@ -77,21 +51,22 @@ export class AddCustomerPage {
       return;
   }
     this.services.addCustomer(this.customerForm.value)
-    this.showAlert()
+    this.toast.presentToast('Customer added successfully')
+    this.navCtrl.setRoot(HomePage)
     //this.navCtrl.pop()
   }
-  showAlert() {
-    const alert = this.alertCtrl.create({
-      subTitle: 'Customer added successfully',
-      buttons: [
-        {
-        text: 'OK',
-        handler: () => {
-          this.navCtrl.setRoot(HomePage)
-        }
-      },
-    ]
-    });
-    alert.present();
-  }
+  // showAlert() {
+  //   const alert = this.alertCtrl.create({
+  //     subTitle: 'Customer added successfully',
+  //     buttons: [
+  //       {
+  //       text: 'OK',
+  //       handler: () => {
+  //         this.navCtrl.setRoot(HomePage)
+  //       }
+  //     },
+  //   ]
+  //   });
+  //   alert.present();
+  // }
 }

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController } from 'ionic-angular';
+import { MenuController, NavController } from 'ionic-angular';
+import { ServicesProvider } from '../../providers/services/services';
 import { AddCustomerPage } from '../add-customer/add-customer';
 import { CustomerDetailPage } from '../customer-detail/customer-detail';
-import { ServicesProvider } from '../../providers/services/services';
 //import { PaymentDetailsPage } from '../payment-details/payment-details';
 
 
@@ -26,7 +26,7 @@ export class HomePage {
    // this.customers = this.services.getCustomer()
     console.log('ionViewDidLoad Homepage');
     console.log('GETTING ALL CUSTOMERS', this.customers);
-   this.menu.enable(true);
+    this.menu.enable(true);
   }
   
   searchItems(ev: any) {

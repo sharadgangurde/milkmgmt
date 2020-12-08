@@ -81,6 +81,10 @@ page-home {
     .item-md {
         padding-right: 0;
         padding-left: 5px;
+        border-top: none;
+        --border-width: 0; 
+        --inner-border-width: 0;
     }
+    ion-item { --border-width: 0; --inner-border-width: 0; }
     
 }

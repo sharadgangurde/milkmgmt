@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, MenuController, AlertController } from 'ionic-angular';
-import { LoginPage } from '../login/login';
-import { FormGroup, Validators, FormBuilder, ValidatorFn, AbstractControl } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AlertController, MenuController, NavController, NavParams } from 'ionic-angular';
 import { ServicesProvider } from '../../providers/services/services';
+import { ToastProvider } from '../../providers/toast/toast';
+import { ValidationProvider } from '../../providers/validation/validation';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the RegisterPage page.
@@ -18,41 +20,15 @@ import { ServicesProvider } from '../../providers/services/services';
 export class RegisterPage {
   submitted = false;
   registrationForm: FormGroup;
-  validation_messages = {
-    'firstName': [
-    { type: 'required', message: 'Please enter the Name' },
-    { type: 'pattern', message: 'Invalid name format' }
-    ],
-    'lastName': [
-      { type: 'required', message: 'Please enter the lastName' },
-      { type: 'pattern', message: 'Invalid name format' }
-    ],
-    'email': [
-      { type: 'required', message: 'Please enter the email' },
-      { type: 'email', message: 'Please enter valid email address' }
-    ],
-    'mobile': [
-      { type: 'required', message: 'Please enter Mobile Number' },
-      { type: 'minlength', message: 'Please enter valid mobile number' }
-    ],
-    'address': [
-      { type: 'required', message: 'Please enter the address' }
-    ],
-    'password': [
-      { type: 'required', message: 'Please enter the password' },
-      { type: 'minlength', message: 'Enter atleast 6 digits' }
-    ],
-    'confirm_password': [
-      { type: 'required', message: 'Please enter the confirm Password' },
-      { type: 'equalto', message: 'Password does not match' }
-    ],
-  }
+  validation_messages: any;
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     public menu: MenuController, 
     public alertCtrl: AlertController, 
     public formBuilder: FormBuilder,
-    public services: ServicesProvider
+    public services: ServicesProvider,
+    public toastCtrl: ToastProvider,
+    public validation: ValidationProvider
     ) {
      // Create the form and define fields and validators.
      this.registrationForm = this.formBuilder.group({
@@ -64,6 +40,7 @@ export class RegisterPage {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirm_password: ['', [Validators.required, this.equalto('password')]]
   });
+  this.validation_messages = this.validation.validationMessages();
   }
   // get f() { return this.registrationForm.controls; }
   equalto(field_name): ValidatorFn {
@@ -84,22 +61,24 @@ export class RegisterPage {
    if (this.registrationForm.invalid) {
       return;
     } 
-    this.services.setRegistrationData(this.registrationForm.value);   
-    this.showAlert()
+    this.services.setRegistrationData(this.registrationForm.value);
+    this.toastCtrl.presentToast('Successfully Registered');
+    this.navCtrl.setRoot(LoginPage)
+    //this.showAlert()
   }
-  showAlert() {
-    const alert = this.alertCtrl.create({
-      subTitle: 'Successfully Registered!!',
-      buttons: [
-        {
-        text: 'OK',
-        handler: () => {
-          this.navCtrl.setRoot(LoginPage)
-        }
-      },
-    ]
-    });
-    alert.present();
-  }
+  // showAlert() {
+  //   const alert = this.alertCtrl.create({
+  //     subTitle: 'Successfully Registered!!',
+  //     buttons: [
+  //       {
+  //       text: 'OK',
+  //       handler: () => {
+  //         this.navCtrl.setRoot(LoginPage)
+  //       }
+  //     },
+  //   ]
+  //   });
+  //   alert.present();
+  // }
 
 }

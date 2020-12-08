@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActionSheetController, AlertController, NavController, NavParams } from 'ionic-angular';
 import { ServicesProvider } from '../../providers/services/services';
 import { HomePage } from '../home/home';
-import { ViewRecordPage } from '../view-record/view-record';
 import { PaymentDetailsPage } from '../payment-details/payment-details';
+import { ViewRecordPage } from '../view-record/view-record';
 
 
 @Component({
@@ -120,6 +120,10 @@ export class CustomerDetailPage {
       item: this.selectedCustomer,
       total: this.total
     })
+  }
+
+  goBack() {
+    this.navCtrl.pop()
   }
   presentActionSheet() {
     const actionSheet = this.actionSheetCtrl.create({

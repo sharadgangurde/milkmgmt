@@ -112,7 +112,7 @@
       </ion-card>
       <ion-row>
         <ion-col>
-          <button ion-button full >Cancel</button>
+          <button ion-button full (click)="goBack()" >Cancel</button>
         </ion-col>
         <ion-col>
           <button ion-button full [disabled]="!dailyDetailForm.valid" (click)="addDailyRecord()">Save</button>

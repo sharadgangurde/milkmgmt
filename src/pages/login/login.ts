@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, MenuController, AlertController } from 'ionic-angular';
-import { RegisterPage } from '../register/register';
-import { HomePage } from '../home/home';
+import { FormControl, FormGroup } from '@angular/forms';
+import { AlertController, MenuController, NavController, NavParams } from 'ionic-angular';
 import { ServicesProvider } from '../../providers/services/services';
-import { FormGroup, FormControl } from '@angular/forms';
+import { ToastProvider } from '../../providers/toast/toast';
+import { HomePage } from '../home/home';
+import { RegisterPage } from '../register/register';
 
 /**
  * Generated class for the LoginPage page.
@@ -25,7 +26,8 @@ export class LoginPage {
     public navParams: NavParams, 
     public menu: MenuController,
     public services: ServicesProvider,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public toast: ToastProvider,
     ) {
       this.loginForm = new FormGroup({
         userName: new FormControl(),
@@ -48,18 +50,19 @@ export class LoginPage {
       if (state) {
         this.navCtrl.setRoot(HomePage);
       } else {
-        this.showAlert();
+        this.toast.presentToast('Invalid Credentials!')
+        //this.showAlert();
       }
     });
   }
-  showAlert() {
-    const alert = this.alertCtrl.create({
-      title: 'Sorry!',
-      subTitle: 'Invalid username or password',
-      buttons: ['Try again..!']
-    });
-    alert.present();
-  }
+  // showAlert() {
+  //   const alert = this.alertCtrl.create({
+  //     title: 'Sorry!',
+  //     subTitle: 'Invalid username or password',
+  //     buttons: ['Try again..!']
+  //   });
+  //   alert.present();
+  // }
   gotoRegister(){
   this.navCtrl.push(RegisterPage);
   }

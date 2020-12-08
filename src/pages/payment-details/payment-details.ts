@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, MenuController, AlertController, ActionSheetController, Platform } from 'ionic-angular';
-import { ServicesProvider } from '../../providers/services/services';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CallNumber } from '@ionic-native/call-number';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { ActionSheetController, AlertController, MenuController, NavController, NavParams, Platform } from 'ionic-angular';
+import * as moment from "moment";
 import * as pdfmake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import { File } from '@ionic-native/file/ngx';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { SocialSharing } from '@ionic-native/social-sharing';
-import { CallNumber } from '@ionic-native/call-number';
-
+import { ServicesProvider } from '../../providers/services/services';
+import { ToastProvider } from '../../providers/toast/toast';
 
 //@IonicPage()
 @Component({
@@ -23,27 +24,11 @@ export class PaymentDetailsPage {
   options: any;
   pendingamountmsg: any;
   milkmanuser: any;
-  currentDate: any = new Date().toISOString();
+  currentDate: any;
   paymentDetails: FormGroup;
-
-  validation_messages = {
-    'Name': [
-      {type: 'required', message: 'Enter a name'},
-      {type: 'pattern', message: 'Enter a valid name'}
-    ],
-    'fromDate': [
-      {type: 'required', message: 'Select the date'},
-    ],
-    'Paiedamount': [
-      {type: 'required', message: 'display amount'},
-    ],
-    'TotalBill': [
-      {type: 'required', message: 'display total'},
-    ],
-    'Pending': [
-      {type: 'required', message: 'display total'},
-    ]
-  }
+  blobPdf: any;
+  iab: any;
+  validation_messages: any;
   fromDate: Date;
 
   selectedCustomer: any;
@@ -75,7 +60,9 @@ export class PaymentDetailsPage {
     private file: File,
     private platform: Platform,
     private fileOpener: FileOpener,
-    private callNumber: CallNumber
+    private callNumber: CallNumber,
+   // public validation: ValidationProvider,
+    public toast: ToastProvider
     ) {
     
       this.selectedCustomer = navParams.get('item');
@@ -99,9 +86,10 @@ export class PaymentDetailsPage {
         
       })
     this.getpending = this.calculateAmount()//Number.parseInt(this.pending);
+    this.currentDate = moment().format("YYYY-MM-DD");
     this.pdfData.push(this.currentDate)
     this.pdfData.push(this.totalPending)
-      
+    //this.validation_messages = this.validation.validationMessages()
   }
 
   ionViewDidLoad() {
@@ -134,19 +122,19 @@ export class PaymentDetailsPage {
   
 // console.log('add addPayment Details of id '+ this.selectedCustomer.cust_id +'PaymentRecord',this.Paymentdetails.value);
       
-  this.showAlert()
+ // this.showAlert()
   }
-  showAlert() {
-    const alert = this.alertCtrl.create({
-      title: 'Add Payment ',
-      subTitle:'Paied'+this.paymentDetails.value.paidAmount ,
-      message: this.selectedCustomer.firstName,
+  // showAlert() {
+  //   const alert = this.alertCtrl.create({
+  //     title: 'Add Payment ',
+  //     subTitle:'Paid'+this.paymentDetails.value.paidAmount ,
+  //     message: this.selectedCustomer.firstName,
 
-      buttons: ['OK']
-    });
-    this.displayPaymentDetails = this.services.getPaymentDetails(this.selectedCustomer.cust_id); 
-    alert.present();
-  }
+  //     buttons: ['OK']
+  //   });
+  //   this.displayPaymentDetails = this.services.getPaymentDetails(this.selectedCustomer.cust_id); 
+  //   alert.present();
+  // }
 
 
   getBillPending() {
@@ -192,7 +180,7 @@ export class PaymentDetailsPage {
           text: 'Share',
           role: 'share',
           handler: () => {
-            this.share()
+            this.shareBill()
           }
         },{
           text: 'Delete',
@@ -313,19 +301,19 @@ export class PaymentDetailsPage {
     this.name,
     this.selectedCustomer.address,
     this.selectedCustomer.mobile,
-    { text: 'Bill', style: 'subheader'},
+    { text: 'Bill', style: 'billtag'},
     {
       style: 'itemsTable',
       table: {
           widths: ['*', 75, 75],
           body: [
             ['Date.', 'Total Amount'],
-            [ this.currentDate, this.pending],
+            [ 'Pending till: '+this.currentDate, this.pending],
             ['Total:', this.pending],
           ]
       }
     },
- 
+    
     { text: 'Date', style: 'date' },
     this.currentDate
     ],
@@ -350,32 +338,92 @@ export class PaymentDetailsPage {
       url: {
         fontSize: 12,
         alignment: 'right'
+      },
+      itemsTable: {
+        marginTop: 70,
+      },
+      billtag: {
+        alignment: 'center',
       }
     },
     pageSize: 'A4',
     pageOrientation: 'portrait'
     };
     //pdfmake.createPdf(docDefinition).open();
-    this.pdfObj = pdfmake.createPdf(docDefinition);
-    this.downloadPdf();
+    // this.pdfObj = pdfmake.createPdf(docDefinition).open();
+    // this.downloadPdf(this.pdfObj);
+    var self = this;
+    pdfmake.createPdf(docDefinition).getBuffer(function (buffer) {
+      let utf8 = new Uint8Array(buffer);
+      let binaryArray = utf8.buffer;
+      self.downloadPdf(binaryArray);
+    })
   }
-  downloadPdf() {
-    console.log("DownloadPdf() triggered")
-    if (this.platform.is('cordova')) {
-      this.pdfObj.getBuffer((buffer) => {
-        var blob = new Blob([buffer], { type: 'Documents/pdf' });
+  // downloadPdf(pdfObj) {
+  //   console.log("DownloadPdf() triggered")
+  //   if (this.platform.is('cordova')) {
+  //     pdfObj.getBuffer((buffer) => {
+  //       var blob = new Blob([buffer], { type: 'Documents/pdf' });
  
-        // Save the PDF to the data Directory of our App
-        this.file.writeFile(this.file.dataDirectory, 'test.pdf', blob, { replace: true }).then(fileEntry => {
-        // Open the PDf with the correct OS tools
-        this.fileOpener.open(this.file.dataDirectory + 'test.pdf', 'Documents/pdf');
-        })
-      });
-    } else {
-      // On a browser simply use download!
-      this.pdfObj.download();
-    }
+  //       // Save the PDF to the data Directory of our App
+  //       this.file.writeFile(this.file.dataDirectory, 'test.pdf', blob, { replace: true }).then(fileEntry => {
+  //       // Open the PDf with the correct OS tools
+  //       const toast = this.toastCtrl.create({
+  //         message: 'File saved to your device',
+  //         duration: 3000,
+  //         position: 'top'
+  //         });
+  //         toast.present();
+      
+  //       this.fileOpener.open(this.file.dataDirectory + 'test.pdf', 'Documents/pdf');
+  //       })
+  //     });
+  //   } else {
+  //     // On a browser simply use download!
+  //     this.pdfObj.download();
+  //   }
+  // }
+
+  downloadPdf(data: any){
+    if (this.platform.is('ios')) {
+    // Use inAppBrowser plugin,
+    // easier and faster in iOS
+      this.pdfObj.active = false;
+      this.pdfObj.fileURL = URL.createObjectURL(data);
+      var browser = this.iab.create(
+        this.pdfObj.fileURL, 
+        '_blank',
+        'location=no,' +
+        'toolbar=yes,' +
+        'enableViewportScale=yes,' +
+        'closebuttoncaption=Cerrar PDF,' +
+        'hardwareback=no'
+      );
+      browser.show();
+    } else if (this.platform.is('cordova')) {
+      //alert(data)
+      // lets save and then open the file
+      this.blobPdf = data; // Lets store the pdf Blob
+      let filedir = this.file.dataDirectory;
+      this.file.writeFile( //save PDF
+        filedir, 
+        "bill.pdf", 
+        this.blobPdf, 
+        {replace:true}
+      ).then(() =>{
+        this.fileOpener.open( //open in native PDF
+          filedir + 'bill.pdf', 
+          'application/pdf'
+        ).then(() => {
+          this.pdfObj.active = false;
+        }).catch(e => console.log('Open error', e));
+      }).catch(e => console.log('Save error',e));
+    } (error) => {
+        alert('err')  
   }
-   
+	
+	}
+
+  
     
 }
